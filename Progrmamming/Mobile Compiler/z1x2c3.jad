@@ -1,0 +1,15 @@
+midtime: 5000
+midlevel: 80
+giftime: 5000
+gifcolor: 0
+Manifest-Version: 1.0
+MicroEdition-Configuration: CLDC-1.0
+MIDlet-Name: Mobile C Programming
+Created-By: 1.4.2_07 (Sun Microsystems Inc.)
+MIDlet-Vendor: SBAPPS.TK
+MIDlet-1: Mobile C, /icon.png, MyMIDlet
+MIDlet-Version: 2.5.0
+MIDlet-Delete-Confirm: Do you want to kill me?
+MicroEdition-Profile: MIDP-1.0
+MIDlet-Jar-URL: http://goran.mobile9.com/download/content_delivery.php?key=MzIwL21vYmlsZWNwcm9fRjZ2RkwxUTAuamFyfDE0MjYwNzgxOTN8&f=1426078193.jar
+MIDlet-Jar-Size: 216354

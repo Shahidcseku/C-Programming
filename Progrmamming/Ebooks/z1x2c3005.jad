@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+MIDlet-Name: 2-CPROGRAMMINGLANGUAGE(105939)
+Created-By: 1.5.0_06-b05 (Sun Microsystems Inc.)
+MIDlet-1: 2-CPROGRAMMINGLANGUAGE(105939), /i.png, Wattpad
+Codes: 105939
+MIDlet-Data-Size: 32000
+MicroEdition-Configuration: CLDC-1.0
+Ant-Version: Apache Ant 1.7.0
+MIDlet-Icon: /i.png
+MIDlet-Info-URL: http://www.wattpad.com
+MIDlet-Vendor: Wattpad
+MIDlet-Version: 1.4.2
+MicroEdition-Profile: MIDP-2.0
+MIDlet-Jar-URL: http://npapp.wen.ru/ebook/jebook/programming/C-programming_part02.jar
+MIDlet-Jar-Size: 104637

@@ -1,0 +1,150 @@
+
+main.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000076  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .debug_aranges 00000020  00000000  00000000  000000ca  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  2 .debug_pubnames 00000035  00000000  00000000  000000ea  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_info   000000b9  00000000  00000000  0000011f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_abbrev 00000087  00000000  00000000  000001d8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_line   00000121  00000000  00000000  0000025f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_frame  00000040  00000000  00000000  00000380  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_str    000000a7  00000000  00000000  000003c0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
+   2:	19 c0       	rjmp	.+50     	; 0x36 <__bad_interrupt>
+   4:	18 c0       	rjmp	.+48     	; 0x36 <__bad_interrupt>
+   6:	17 c0       	rjmp	.+46     	; 0x36 <__bad_interrupt>
+   8:	16 c0       	rjmp	.+44     	; 0x36 <__bad_interrupt>
+   a:	15 c0       	rjmp	.+42     	; 0x36 <__bad_interrupt>
+   c:	14 c0       	rjmp	.+40     	; 0x36 <__bad_interrupt>
+   e:	13 c0       	rjmp	.+38     	; 0x36 <__bad_interrupt>
+  10:	12 c0       	rjmp	.+36     	; 0x36 <__bad_interrupt>
+  12:	11 c0       	rjmp	.+34     	; 0x36 <__bad_interrupt>
+  14:	10 c0       	rjmp	.+32     	; 0x36 <__bad_interrupt>
+  16:	0f c0       	rjmp	.+30     	; 0x36 <__bad_interrupt>
+  18:	0e c0       	rjmp	.+28     	; 0x36 <__bad_interrupt>
+  1a:	0d c0       	rjmp	.+26     	; 0x36 <__bad_interrupt>
+  1c:	0c c0       	rjmp	.+24     	; 0x36 <__bad_interrupt>
+  1e:	0b c0       	rjmp	.+22     	; 0x36 <__bad_interrupt>
+  20:	0a c0       	rjmp	.+20     	; 0x36 <__bad_interrupt>
+  22:	09 c0       	rjmp	.+18     	; 0x36 <__bad_interrupt>
+  24:	08 c0       	rjmp	.+16     	; 0x36 <__bad_interrupt>
+
+00000026 <__ctors_end>:
+  26:	11 24       	eor	r1, r1
+  28:	1f be       	out	0x3f, r1	; 63
+  2a:	cf e5       	ldi	r28, 0x5F	; 95
+  2c:	d4 e0       	ldi	r29, 0x04	; 4
+  2e:	de bf       	out	0x3e, r29	; 62
+  30:	cd bf       	out	0x3d, r28	; 61
+  32:	13 d0       	rcall	.+38     	; 0x5a <main>
+  34:	1e c0       	rjmp	.+60     	; 0x72 <_exit>
+
+00000036 <__bad_interrupt>:
+  36:	e4 cf       	rjmp	.-56     	; 0x0 <__vectors>
+
+00000038 <adc_init>:
+
+
+
+void adc_init(void)
+{
+	ADMUX |= (1 << REFS0) | (1 << REFS1);
+  38:	87 b1       	in	r24, 0x07	; 7
+  3a:	80 6c       	ori	r24, 0xC0	; 192
+  3c:	87 b9       	out	0x07, r24	; 7
+	ADCSRA |= (1 << ADPS2) | (1 << ADPS1);
+  3e:	86 b1       	in	r24, 0x06	; 6
+  40:	86 60       	ori	r24, 0x06	; 6
+  42:	86 b9       	out	0x06, r24	; 6
+	ADCSRA &= ~(1 << ADPS0);
+  44:	30 98       	cbi	0x06, 0	; 6
+	ADCSRA |= (1 << ADEN);
+  46:	37 9a       	sbi	0x06, 7	; 6
+
+}
+  48:	08 95       	ret
+
+0000004a <adc_read>:
+
+uint16_t adc_read(void)
+
+{
+	ADMUX |= (1 << MUX0);
+  4a:	38 9a       	sbi	0x07, 0	; 7
+	ADCSRA |= (1 << ADSC);
+  4c:	36 9a       	sbi	0x06, 6	; 6
+	
+	while(ADCSRA & (1 << ADSC))
+  4e:	36 99       	sbic	0x06, 6	; 6
+  50:	fe cf       	rjmp	.-4      	; 0x4e <adc_read+0x4>
+	{
+	
+	}
+	return ADCW;
+  52:	24 b1       	in	r18, 0x04	; 4
+  54:	35 b1       	in	r19, 0x05	; 5
+}
+  56:	c9 01       	movw	r24, r18
+  58:	08 95       	ret
+
+0000005a <main>:
+
+int main(void)
+
+{
+  5a:	1f 93       	push	r17
+	DDRB |= ( 1 << DDB0);
+  5c:	b8 9a       	sbi	0x17, 0	; 23
+	uint16_t adcvalue=0;
+	adc_init();
+  5e:	ec df       	rcall	.-40     	; 0x38 <adc_init>
+	
+	{
+		adcvalue = adc_read();
+		if(adcvalue<100)
+		{
+			PORTB= 0b00000001;
+  60:	11 e0       	ldi	r17, 0x01	; 1
+	uint16_t adcvalue=0;
+	adc_init();
+	while(1)
+	
+	{
+		adcvalue = adc_read();
+  62:	f3 df       	rcall	.-26     	; 0x4a <adc_read>
+		if(adcvalue<100)
+  64:	84 36       	cpi	r24, 0x64	; 100
+  66:	91 05       	cpc	r25, r1
+  68:	10 f4       	brcc	.+4      	; 0x6e <main+0x14>
+		{
+			PORTB= 0b00000001;
+  6a:	18 bb       	out	0x18, r17	; 24
+  6c:	fa cf       	rjmp	.-12     	; 0x62 <main+0x8>
+			
+		
+		}
+		else
+		{
+			PORTB = 0b00000000;
+  6e:	18 ba       	out	0x18, r1	; 24
+  70:	f8 cf       	rjmp	.-16     	; 0x62 <main+0x8>
+
+00000072 <_exit>:
+  72:	f8 94       	cli
+
+00000074 <__stop_program>:
+  74:	ff cf       	rjmp	.-2      	; 0x74 <__stop_program>
